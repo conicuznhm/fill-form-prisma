@@ -3,7 +3,8 @@ import prisma from '../config/db';
 import {formSubmissionSchema, FormSubmissionInput, partialFormSubmissionSchema, PartialFormSubmissionInput} from '../validators/formValidator';
 
 //post form
-export const createFormSubmission = async (req: Request, res: Response, next: NextFunction) => {
+// export const createFormSubmission = async (req: Request, res: Response, next: NextFunction) => {
+export const createFormSubmission = async (req: Request, res: Response) => {
     try {
         //Validate input
         const validatedData: FormSubmissionInput = formSubmissionSchema.parse(req.body);
@@ -17,12 +18,12 @@ export const createFormSubmission = async (req: Request, res: Response, next: Ne
 
         res.status(201).json(submission);
     } catch (error) {
-        // if (error instanceof Error) {
-        //     res.status(400).json({error: error.message});
-        // } else {
-        //     res.status(500).json({error: 'Internal server error'});
-        // }
-        next(error);
+        if (error instanceof Error) {
+            res.status(400).json({error: error.message});
+        } else {
+            res.status(500).json({error: 'Internal server error'});
+        }
+        // next(error);
     }
 };
 
