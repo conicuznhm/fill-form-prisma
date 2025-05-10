@@ -9,10 +9,15 @@ import morgan from 'morgan';
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = Number(process.env.PORT || 8899);
 
 // Middleware
-app.use(cors());
+// app.use(cors());
+app.use(cors({
+    origin: process.env.FRONTEND_URL || 'http://localhost',
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+}));
 app.use(express.json());
 
 // Use morgan for logging HTTP requests
@@ -30,6 +35,6 @@ app.get('/health', (_req, res) => {
 });
 
 // Start the server
-app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
+app.listen(PORT, '0.0.0.0', () => {
+    console.log(`Server is running on http://0.0.0.0:${PORT}`);
 });

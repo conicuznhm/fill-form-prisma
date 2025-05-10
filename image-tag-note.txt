@@ -1,0 +1,11 @@
+form-api:v1 = Server is runing on localhost:8899, use psql ip to connect 
+		api on my-network, ip:10.89.0._ 
+		database psql on podman(default network), fixed ip:10.88.0.20 
+
+form-api:v2 = Server is running on http://0.0.0.0:8899, use psql ip to connect 
+		api on my-network, ip:10.89.0._ 
+		database psql on podman(default network), fixed ip:10.88.0.20 
+
+form-api:v3 = Server is running on http://0.0.0.0:8899, use psql container name to connect by DNS resolver of podman built-in 
+		api on my-network, ip:10.89.0._ 
+		database psql on my-network(in the same as api network), ip:10.88.0._
