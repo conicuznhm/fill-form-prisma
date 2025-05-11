@@ -1,7 +1,7 @@
-# Build stage
-FROM node:24-alpine AS builder
+# Use a lightweight Node base image
+FROM node:24-alpine
 
-# Set working directory for build
+# Set working directory inside the container
 WORKDIR /app
 
 # Install pnpm globally
@@ -9,52 +9,33 @@ RUN npm install -g pnpm@10.10.0
 
 # Copy dependency files and install dependencies
 COPY package.json pnpm-lock.yaml ./
-RUN pnpm install
-# RUN pnpm install --frozen-lockfile
+RUN pnpm install --frozen-lockfile
 
 # Copy Prisma schema and generate Prisma client
 COPY prisma ./prisma
 RUN pnpm prisma generate
 
-# Copy the rest of the application code
-COPY src ./src
-COPY tsconfig.json ./
+# Copy the rest of your application code
 COPY . .
 
-# Build the application
+# Build your application
 RUN pnpm run build
 
-# Runtime stage
-FROM node:24-alpine
+# Copy the entrypoint script
+COPY entrypoint.sh .
 
-# Set working directory for runtime
-WORKDIR /app
-
-# Install pnpm globally in the runtime image
-RUN npm install -g pnpm@10.10.0
-
-# Copy only necessary files from the builder stage
-COPY --from=builder /app/package.json /app/pnpm-lock.yaml ./
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/generated ./generated
-COPY --from=builder /app/dist ./dist
-COPY --from=builder /app/prisma ./prisma
-COPY --from=builder /app/entrypoint.sh .
-
-# Install only production dependencies
-# RUN pnpm install --frozen-lockfile --prod
-RUN pnpm install --prod
-RUN pnpm install prisma@6.7.0
-
-# Make the entrypoint script executable
+# Make the entrypoint script executable 
+# (necessary when using windows to build the image, if linux just chmod +x entrypoint.sh before build image)
 RUN chmod +x entrypoint.sh
 
-# Expose the port the app will run on
+# Expose the port your app will run on
 EXPOSE 8899
 
-# Run the entrypoint script which handles migrations and starts the server
+# Run the entrypoint script which handles migrations by ENTRYPOINT and starts the server by CMD
 ENTRYPOINT ["sh", "entrypoint.sh"]
 CMD ["pnpm", "start"]
+
+
 
 # //for build image api
 # podman build -t form-api:v1 --no-cache .

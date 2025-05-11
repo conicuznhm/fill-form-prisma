@@ -9,7 +9,8 @@ import morgan from 'morgan';
 dotenv.config();
 
 const app = express();
-const PORT = Number(process.env.PORT || 8899);
+// const PORT = Number(process.env.PORT || 8899);
+const PORT = parseInt(process.env.PORT || '8899', 10);
 
 // Middleware
 // app.use(cors());

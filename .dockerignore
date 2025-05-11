@@ -1,8 +1,28 @@
-dist
-node_modules
+node_modules/
+dist/
 .env
-.env.local
-.git
-.gitignore
+.env.*
 Dockerfile
-docker-compose.yml
+old.Dockerfile
+docker-compose.*
+.dockerignore
+.git/
+.gitignore
+.vscode/
+.idea/
+*.log
+coverage/
+test/
+image-tag-note.txt
+
+# dist
+# node_modules
+# .env
+# .env.local
+# .git
+# .gitignore
+# Dockerfile
+# docker-compose.yml
+# .dockerignore.test
+# old.Dockerfile
+# image-tag-note.txt
