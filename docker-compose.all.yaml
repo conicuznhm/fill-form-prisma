@@ -1,6 +1,21 @@
 version: '3.7'
 
 services:
+  form-vite:
+    image: form-vite:v3
+    # build:
+    #   context: .
+    #   dockerfile: Dockerfile
+    container_name: form-vite
+    networks:
+      - my-network
+    ports:
+      - "80:80"
+    depends_on:
+      form-api:
+        condition: service_healthy
+    restart: unless-stopped
+
   form-api:
     image: form-api:v4
     build:
@@ -20,6 +35,11 @@ services:
     depends_on:
       form-psql:
         condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8899 || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5    
     restart: unless-stopped
 
   form-psql:
