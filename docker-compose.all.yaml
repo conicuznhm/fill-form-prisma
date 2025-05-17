@@ -72,7 +72,7 @@ volumes:
     name: form-data
     external: true
 
-# to use podman-compose, conda activate base, pip install podman-compose
+# to use podman-compose, pip install podman-compose
 # podman-compose up -d
 # podman-compose up --build -d
 # podman-compose down
