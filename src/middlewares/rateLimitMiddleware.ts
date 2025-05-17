@@ -17,8 +17,8 @@ const apiStore = new MemoryStore();
 
 // Global Rate Limiter
 export const globalLimiter = rateLimit({
-    windowMs: 15*60*1000, // 15 minutes
-    max: 100, // limit each IP to 100 requests per windowMs
+    windowMs: 10*60*1000, // 10 minutes
+    max: 500, // limit each IP to 500 requests per windowMs
     standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
     legacyHeaders: false, // Disable the `X-RateLimit-*` headers
     handler: rateLimitHandler,
@@ -32,7 +32,7 @@ export const globalLimiter = rateLimit({
 // API-specific rate limiter (stricter)
 export const apiLimiter = rateLimit({
     windowMs: 5*60*1000, // 5 minutes
-    max: 5, // limit each IP to 50 requests per windowMs
+    max: 20, // limit each IP to 20 requests per windowMs
     standardHeaders: true,
     legacyHeaders: false,
     handler: rateLimitHandler,

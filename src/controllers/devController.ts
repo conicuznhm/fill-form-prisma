@@ -12,8 +12,11 @@ export const resetRateLimit = (req: Request, res: Response) => {
 
     try {
         // In express-rate-limit v6+, need to access the store directly
+        // Get the IP from query param that pass from url?key:value
+        const queryIP = req.query.ip as string;
+
         // Get the IP to reset
-        const ip = req.ip || req.headers['x-forwarded-for'] as string || 'unknown';
+        const ip = queryIP || req.ip || req.headers['x-forwarded-for'] as string || 'unknown';
 
         // Reset the rate limit by accessing the req.app.locals
         const globalLimiterStore = req.app.locals.globalLimiterStore as MemoryStore;
@@ -24,7 +27,6 @@ export const resetRateLimit = (req: Request, res: Response) => {
             globalLimiterStore.resetKey(ip);
             console.log(`Reset global rate limit for IP: ${ip}`);
         }
-
         if (apiLimiterStore) {
             apiLimiterStore.resetKey(ip);
             console.log(`Reset API rate limit for IP: ${ip}`);
