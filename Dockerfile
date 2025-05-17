@@ -49,6 +49,9 @@ RUN pnpm install prisma@6.7.0
 # Make the entrypoint script executable
 RUN chmod +x entrypoint.sh
 
+# //Set environment variable
+# ENV NODE_ENV=deploy
+
 # Expose the port the app will run on
 EXPOSE 8899
 
