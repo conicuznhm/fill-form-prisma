@@ -92,3 +92,13 @@ CMD ["pnpm", "start"]
 # --network my-network \
 # -p 5432:5432 \
 # -d postgres:17.5
+
+
+# //to push image to ghcr.io    :1 != :v1
+# podman login ghcr.io
+# podman tag form-api:1  ghcr.io/conicuznhm/form-api:1
+# podman push ghcr.io/conicuznhm/form-api:1
+
+
+# //to pull image
+# podman pull ghcr.io/conicuznhm/form-api:1

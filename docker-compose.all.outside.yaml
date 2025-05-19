@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   form-vite:
-    image: form-vite:v3
+    image: form-vite:1
     build:
       context: ./fill-vite
       dockerfile: Dockerfile
@@ -17,7 +17,7 @@ services:
     restart: unless-stopped
 
   form-api:
-    image: form-api:v4
+    image: form-api:1
     build:
       context: ./fill-form-prisma
       dockerfile: Dockerfile
